@@ -1,7 +1,6 @@
-streamlit
-pandas
-numpy
+streamlit==0.86.0
+pandas==1.2.4
+numpy==1.20.2
 scikit-learn
 pyngrok==4.1.1
-icd10-cm
-datetime
+icd10-cm==0.0.4
