@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run covitality-app.py
+web: sh setup.sh && streamlit run new-zealand-discharge.py
