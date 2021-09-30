@@ -1,0 +1,7 @@
+streamlit
+pandas
+numpy
+scikit-learn
+pyngrok==4.1.1
+icd10-cm
+datetime
