@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run new-zealand-discharge.py
+web: sh setup.sh && streamlit run NZ_app.py
