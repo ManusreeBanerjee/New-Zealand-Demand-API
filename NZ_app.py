@@ -4,11 +4,17 @@ import sklearn
 import pandas as pd
 import numpy as np
 import pickle
+import bz2file as bz2
 from datetime import datetime, timedelta, date
 import datetime as dt
 from dateutil.relativedelta import relativedelta
 from sklearn.preprocessing import LabelEncoder
-  
+
+#decompress
+def decompress_pickle(file):
+  data = bz2.BZ2File(file, 'rb')
+  data = pickle.load(data)
+  return data  
 st.set_page_config(page_title="NZ Hospital Demand Forecast APP",layout="centered",initial_sidebar_state="expanded")
 
 st.sidebar.header('User Input Parameters')
@@ -54,7 +60,6 @@ district = dist_dict[dhb]
 
 if st.button("PREDICT"):
   if icd10.exists(icdcode):
-    st.write("ICD code is", icdcode)
     code = icd10.find(icdcode)
     if icdcode=='A00' or icdcode=='B00':
       chap=1
@@ -102,11 +107,10 @@ if st.button("PREDICT"):
       # Accessing integer using roman key
       icd_chap=code.chapter
       chap=romtoint[icd_chap] 
-      st.write("ICD chapter is", chap)
     year=2021
     user_input=[[year,district,sex,page,chap]]
     #load the model from disk
-    loaded_model = pickle.load(open('randforestreg.pkl', 'rb'))
+    loaded_model = decompress_pickle('randforestreg.pbz2')
     mlos = loaded_model.predict(user_input) 
     st.write("Mean Length of Stay is ",np.round(mlos[0],0))
     dis_date=date+ timedelta(days=mlos[0])
@@ -124,7 +128,7 @@ if feedback:
 
 st.subheader("About App")
 
-st.info("This web app helps you to find approximate discharge date of a patient.")
+st.info("This web app helps you to find approximate discharge date of a patient for the year 2021.")
 st.info("Enter the required fields and click on the 'PREDICT' button to check your probable discharge date.")
 
 
